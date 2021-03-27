@@ -1,4 +1,4 @@
-package com.wojcik.restDemo.service.impl;
+package com.wojcik.restDemo.service.Impl;
 
 import com.wojcik.restDemo.entity.Comment;
 import com.wojcik.restDemo.entity.Doctor;
@@ -38,6 +38,25 @@ public class DoctorServiceImpl implements DoctorService {
                 .orElseThrow(NoSuchElementException::new);
         linkCommentToDoctor(comment, doctor);
         doctorRepository.save(doctor);
+    }
+
+    @Override
+    public void deleteDoctor(Integer id) {
+        checkDoctorExists(id);
+        doctorRepository.deleteById(id);
+    }
+
+    @Override
+    public Doctor editDoctor(Integer doctorId, Doctor doctor) {
+        checkDoctorExists(doctorId);
+        doctor.setId(doctorId);
+        return doctorRepository.save(doctor);
+    }
+
+    private void checkDoctorExists(Integer doctorId) {
+        if (!doctorRepository.existsById(doctorId)) {
+            throw new NoSuchElementException();
+        }
     }
 
     private void linkCommentToDoctor(Comment comment, Doctor doctor) {

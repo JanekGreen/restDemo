@@ -41,4 +41,14 @@ public class DoctorController {
         service.commentOnDoctor(doctorId, comment);
 
     }
+    @DeleteMapping("doctor/{id}")
+    public void deleteDoctor(@PathVariable Integer id){
+        service.deleteDoctor(id);
+
+    }
+    @PutMapping("doctor/{id}")
+    public void editDoctor(@PathVariable Integer id, @RequestBody DoctorDto doctorDto){
+        service.editDoctor(id, doctorMapper.toDoctor(doctorDto));
+
+    }
 }

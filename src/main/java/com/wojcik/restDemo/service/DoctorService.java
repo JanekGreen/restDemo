@@ -14,5 +14,9 @@ public interface DoctorService {
 
     void commentOnDoctor(Integer doctorId, Comment comment);
 
+    void deleteDoctor(Integer id);
+
+    Doctor editDoctor(Integer doctorId, Doctor doctor);
+
 
 }

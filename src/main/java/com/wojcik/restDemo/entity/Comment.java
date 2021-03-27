@@ -14,7 +14,6 @@ public class Comment {
     @JoinColumn(name = "doctor_id")
     @JsonBackReference
     Doctor doctor;
-
     public Integer getId() {
         return id;
     }

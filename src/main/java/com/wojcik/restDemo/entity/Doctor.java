@@ -1,5 +1,7 @@
 package com.wojcik.restDemo.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -10,7 +12,6 @@ public class Doctor {
     Integer id;
     String name;
     String surname;
-
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     List<Comment> comments;
