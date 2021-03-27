@@ -1,32 +1,39 @@
 package com.wojcik.restDemo.controller;
 
+import com.wojcik.restDemo.dto.DoctorDto;
 import com.wojcik.restDemo.entity.Comment;
-import com.wojcik.restDemo.entity.Doctor;
+import com.wojcik.restDemo.mapstruct.DoctorMapper;
 import com.wojcik.restDemo.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/doctors")
 public class DoctorController {
     @Autowired
     private DoctorService service;
+    @Autowired
+    private DoctorMapper doctorMapper;
+
 
     @RequestMapping(method = RequestMethod.POST)
-    public void addDoctor(@RequestBody Doctor doctor) {
-        service.save(doctor);
+    public void addDoctor(@RequestBody DoctorDto doctorDto) {
+        service.save(doctorMapper.toDoctor(doctorDto));
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<Doctor> getDoctors() {
-        return service.findAll();
+    public List<DoctorDto> getDoctors() {
+        return service.findAll().stream()
+                .map(doctor -> doctorMapper.toDoctorDto(doctor))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("doctor/{id}")
-    public Doctor getDoctor(@PathVariable Integer id) {
-        return service.findById(id);
+    public DoctorDto getDoctor(@PathVariable Integer id) {
+        return doctorMapper.toDoctorDto(service.findById(id));
     }
 
     @PostMapping(value = "doctor/{doctorId}/comment")

@@ -1,4 +1,4 @@
-package com.wojcik.restDemo.service.Impl;
+package com.wojcik.restDemo.service.impl;
 
 import com.wojcik.restDemo.entity.Comment;
 import com.wojcik.restDemo.entity.Doctor;
