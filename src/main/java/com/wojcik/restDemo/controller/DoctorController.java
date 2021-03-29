@@ -10,7 +10,6 @@ import com.wojcik.restDemo.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,6 +35,7 @@ public class DoctorController {
                 .map(doctor -> doctorMapper.toDoctorDto(doctor))
                 .collect(Collectors.toList());
     }
+
     @RequestMapping(method = RequestMethod.GET, value = "withComments")
     public List<DoctorWithCommentsDto> getDoctorsWithComments() {
         return service.findAll().stream()
@@ -53,20 +53,23 @@ public class DoctorController {
         service.commentOnDoctor(doctorId, comment);
 
     }
+
     @DeleteMapping("doctor/{id}")
-    public void deleteDoctor(@PathVariable Integer id){
+    public void deleteDoctor(@PathVariable Integer id) {
         service.deleteDoctor(id);
 
     }
+
     @PutMapping("doctor/{id}")
-    public void editDoctor(@PathVariable Integer id, @RequestBody DoctorDto doctorDto){
+    public void editDoctor(@PathVariable Integer id, @RequestBody DoctorDto doctorDto) {
         service.editDoctor(id, doctorMapper.toDoctor(doctorDto));
     }
-    private DoctorWithCommentsDto  assembleDoctorWithCommentDts(Doctor doctor){
+
+    private DoctorWithCommentsDto assembleDoctorWithCommentDts(Doctor doctor) {
         return new DoctorWithCommentsDto(doctorMapper.toDoctorDto(doctor),
                 doctor.getComments()
-                .stream()
-                .map(comment -> commentMapper.toCommentDto(comment))
-                .collect(Collectors.toList()));
+                        .stream()
+                        .map(comment -> commentMapper.toCommentDto(comment))
+                        .collect(Collectors.toList()));
     }
 }
