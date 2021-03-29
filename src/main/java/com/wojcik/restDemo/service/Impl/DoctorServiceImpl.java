@@ -2,6 +2,7 @@ package com.wojcik.restDemo.service.Impl;
 
 import com.wojcik.restDemo.entity.Comment;
 import com.wojcik.restDemo.entity.Doctor;
+import com.wojcik.restDemo.exception.NotFoundException;
 import com.wojcik.restDemo.repository.DoctorRepository;
 import com.wojcik.restDemo.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public Doctor findById(Integer id) {
         return doctorRepository.findById(id)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NotFoundException::new);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class DoctorServiceImpl implements DoctorService {
     @Override
     public void commentOnDoctor(Integer doctorId, Comment comment) {
         Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NotFoundException::new);
         linkCommentToDoctor(comment, doctor);
         doctorRepository.save(doctor);
     }
@@ -55,7 +56,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     private void checkDoctorExists(Integer doctorId) {
         if (!doctorRepository.existsById(doctorId)) {
-            throw new NoSuchElementException();
+            throw new NotFoundException();
         }
     }
 
